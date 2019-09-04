@@ -4,8 +4,9 @@ import SearchBar from '../Components/SearchBar';
 import yelp from '../Api/yelp';
 
 const SearchScreen = () => {
-    const [term, setTerm] = useState('')
-    const [results, setResults] = useState([])
+    const [term, setTerm] = useState('');
+    const [results, setResults] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     //use searchApi as a asyncrous function
     const searchApi = async () => {
@@ -19,8 +20,10 @@ const SearchScreen = () => {
             }
         });
         //use setResults to get the data
+        console.log('look at Object', response.data)
         setResults(response.data.businesses)
     } catch(error) {
+        setErrorMessage('something went wrong')
         console.log(error)
     }
     }
@@ -37,7 +40,7 @@ const SearchScreen = () => {
                 //
                 onTermSubmit={() => searchApi()}
             />
-            <Text>Search Screen</Text>
+            {errorMessage ? <Text>{errorMessage}</Text> : null}
             <Text>We have found {results.length}</Text>
         </View>
     );
